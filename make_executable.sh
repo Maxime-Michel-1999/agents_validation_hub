@@ -1,0 +1,1 @@
+chmod +x run_local_test.sh 

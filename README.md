@@ -128,14 +128,35 @@ Current implementation is a working prototype with:
 - Basic authentication
 - Local webhook support
 
-### TODO
+### API Diagram
+```mermaid
+sequenceDiagram
+    participant Agent as AI Agent
+    participant Hub as Validation Hub API
+    participant UI as Review UI
 
-- [ ] Add PostgreSQL database
-- [ ] Implement proper authentication
-- [ ] Add production-ready webhook system
-- [ ] Create deployment configurations
-- [ ] Add comprehensive tests
-- [ ] Implement Slack/Email notifications
+    Note over Agent, Hub: Initial Registration Phase
+    Agent->>Hub: POST /agents/webhook
+    Hub-->>Agent: Webhook registered successfully
+
+    Note over UI, Hub: Reviewer Registration
+    UI->>Hub: POST /reviewers/webhook
+    Hub-->>UI: Webhook registered successfully
+
+    Note over Agent, Hub: Action Submission
+    Agent->>Hub: POST /validate
+    Hub-->>Agent: Returns validation_id (status: pending)
+    Hub->>UI: Webhook notification: New pending action
+
+    Note over UI, Hub: Review Process
+    UI->>Hub: GET /validations?status=pending  (optional)
+    Hub-->>UI: Returns list of pending validations
+    UI->>Hub: POST /validate/{validation_id}/review
+    Hub-->>UI: Review submission acknowledged
+
+    Note over Hub, Agent: Review Notification
+    Hub->>Agent: Webhook callback: Review result
+```
 
 ## Contributing
 

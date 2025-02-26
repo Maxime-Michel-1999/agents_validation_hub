@@ -1,4 +1,4 @@
-# AI Action Validation Hub
+# One ai-assistant to rule them all
 
 A centralized validation system where AI agents can submit actions for human review and approval. This hub provides a simple way to keep humans in the loop for AI agent actions.
 
